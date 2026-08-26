@@ -1,20 +1,35 @@
-# WatchTogether FIXED
+# WatchTogether V3 — WebRTC Debug + Video Streaming
 
-මේ version එකේ Host local video එක Guest browser එකට **actual WebRTC media stream** එකක් ලෙස යැවීමට PeerJS media-call flow එක add කර ඇත.
+## මෙවර fix එක
+Host local video එක `HTMLVideoElement.captureStream()` මගින් MediaStream එකකට convert කරලා PeerJS media call එකෙන් Guest වෙත යවයි.
+
+Guest පැත්තේ incoming `MediaStream` එක `<video>.srcObject` වෙත attach කරයි.
+
+## Test
+1. GitHub Pages එකේ files replace කරන්න.
+2. Host browser එකේ video select කරන්න.
+3. Create Room.
+4. Room link Guestට දෙන්න.
+5. Guest link open කරලා Join කරන්න.
+6. Guestගේ **WebRTC Debug** box බලන්න.
+
+### Expected debug
+- Firebase initialized
+- Guest Peer open
+- Data connection OPEN
+- Outgoing WebRTC media call created
+- REMOTE MEDIA STREAM RECEIVED 🟢
+- Remote tracks: video=1, audio=1 (audio track count browser/file අනුව වෙනස් විය හැක)
+- Remote video metadata: 1920x1080 (resolution file අනුව වෙනස් වේ)
+
+## If black screen
+Debug box එකේ අවසාන red line එක බලන්න. ඒක exact failure point එක පෙන්වයි.
+
+## Browser
+Latest Chrome/Edge use කරන්න.
+
+## Important network limitation
+PeerJS Cloud handles signaling, but WebRTC media may fail on restrictive NAT/firewalls. In that case a TURN server may be required for reliable production connectivity.
 
 ## Firebase
-`config.js` එකේ Firebase Web App config values දාන්න.
-
-Realtime Database එක room metadata/sync state සඳහා පමණයි.
-
-## GitHub Pages
-මේ files සියල්ල repository root එකට upload කරලා:
-Settings → Pages → Deploy from branch → main → /root → Save.
-
-## Important
-Host browser එකේ video file එක local නිසා Host browser එක open/connected තිබිය යුතුයි.
-
-Browser autoplay policy නිසා Guest පැත්තේ video auto-play නොවුණොත් video area එක click කරලා Play කරන්න.
-
-## Note
-WebRTC media connection එක network/NAT/firewall මත depend වෙනවා. PeerJS Cloud signaling තිබුණත් production reliability සඳහා TURN server එකක් අවශ්‍ය විය හැකි අවස්ථා තියෙනවා.
+Firebase Realtime Database room metadata and play/pause/time synchronization සඳහා පමණි. Video file එක Firebase Storage එකට upload නොකරයි.
