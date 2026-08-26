@@ -1,35 +1,45 @@
-# WatchTogether V3 — WebRTC Debug + Video Streaming
+# WatchTogether V4
 
-## මෙවර fix එක
-Host local video එක `HTMLVideoElement.captureStream()` මගින් MediaStream එකකට convert කරලා PeerJS media call එකෙන් Guest වෙත යවයි.
+V4 එකේ **Full Connection Diagnostics** තියෙනවා.
 
-Guest පැත්තේ incoming `MediaStream` එක `<video>.srcObject` වෙත attach කරයි.
+## Files
+- index.html
+- style.css
+- app.js
+- config.js
+
+## GitHub Pages
+පරණ files 4 replace කරලා commit කරන්න.
 
 ## Test
-1. GitHub Pages එකේ files replace කරන්න.
-2. Host browser එකේ video select කරන්න.
-3. Create Room.
-4. Room link Guestට දෙන්න.
-5. Guest link open කරලා Join කරන්න.
-6. Guestගේ **WebRTC Debug** box බලන්න.
+Host:
+1. Video Select
+2. Create Room
+3. Copy Link
 
-### Expected debug
-- Firebase initialized
-- Guest Peer open
-- Data connection OPEN
-- Outgoing WebRTC media call created
-- REMOTE MEDIA STREAM RECEIVED 🟢
-- Remote tracks: video=1, audio=1 (audio track count browser/file අනුව වෙනස් විය හැක)
-- Remote video metadata: 1920x1080 (resolution file අනුව වෙනස් වේ)
+Guest:
+1. Host link open කරන්න.
+2. Join click කරන්න.
+3. **Full Diagnostics** box එක බලන්න.
 
-## If black screen
-Debug box එකේ අවසාන red line එක බලන්න. ඒක exact failure point එක පෙන්වයි.
+## Expected Guest logs
+✓ Firebase initialized
+✓ PeerJS SDK: LOADED
+✓ Guest Peer OPEN
+✓ Host Peer ID found
+✓ DATA connection OPEN
+✓ Guest MEDIA CALL created
+✓ REMOTE MEDIA STREAM RECEIVED
+✓ Remote video tracks: 1
+✓ Remote metadata: WIDTHxHEIGHT
+
+## If REMOTE MEDIA STREAM RECEIVED does not appear
+එහෙනම් WebRTC media path එක establish වෙලා නැහැ. Debug box එකේ අවසාන lines බලලා network/signaling/browser issue එක identify කරන්න.
 
 ## Browser
-Latest Chrome/Edge use කරන්න.
+Latest Chrome/Edge use කරන්න. GitHub Pages HTTPS use කරන නිසා WebRTC APIs සඳහා secure context එකක් ලැබේ.
 
-## Important network limitation
-PeerJS Cloud handles signaling, but WebRTC media may fail on restrictive NAT/firewalls. In that case a TURN server may be required for reliable production connectivity.
+## Important
+PeerJS Cloud signaling එක media relay/TURN server එකක් නොවේ. Restrictive NAT/firewall network එකක P2P media connection එක fail විය හැක. Production reliability සඳහා TURN infrastructure අවශ්‍ය විය හැක.
 
-## Firebase
-Firebase Realtime Database room metadata and play/pause/time synchronization සඳහා පමණි. Video file එක Firebase Storage එකට upload නොකරයි.
+Firebase config එක user-provided project එකට prefilled කර ඇත. Firebase Realtime Database room state/sync සඳහා පමණයි.

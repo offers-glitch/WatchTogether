@@ -2,7 +2,7 @@
 <html lang="si">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>WatchTogether V3</title>
+<title>WatchTogether V4</title>
 <link rel="stylesheet" href="style.css">
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
@@ -10,12 +10,12 @@
 </head>
 <body>
 <main class="app">
-<header><div><div class="brand">WatchTogether <span>V3</span></div><div class="muted">WebRTC Debug + Local Video Streaming</div></div><div id="status" class="status">Ready</div></header>
+<header><div><div class="brand">WatchTogether <small>V4</small></div><div class="muted">Full Connection Diagnostics + WebRTC Video</div></div><div id="status" class="status">Loading...</div></header>
 
 <section class="hero">
 <div class="card">
 <h1>එකට Video බලමු 🎬</h1>
-<p>Hostගේ local video එක WebRTC හරහා Guestට stream වේ.</p>
+<p>Host local video → WebRTC → Guest</p>
 <div class="actions">
 <label class="btn primary">🎬 Video Select<input id="videoInput" type="file" accept="video/*" hidden></label>
 <button id="createBtn" class="btn">🔗 Create Room</button>
@@ -24,26 +24,18 @@
 <div class="roombox"><input id="roomLink" readonly placeholder="Room link"><button id="joinBtn" class="btn">👤 Join</button></div>
 <div id="fileName" class="muted">No video selected</div>
 </div>
-
 <div class="card video-card">
 <div class="video-title"><b>Video</b><span id="role">Not connected</span></div>
-<video id="video" controls playsinline preload="metadata"></video>
-<div id="videoHint" class="hint">Waiting for video...</div>
+<video id="video" controls playsinline></video>
+<div id="videoHint" class="hint">System checking...</div>
 </div>
 </section>
 
 <section class="grid">
-<div class="card">
-<h2>🧪 WebRTC Debug</h2>
-<div id="debug" class="debug"></div>
-</div>
-<div class="card">
-<h2>💬 Chat</h2>
-<div id="messages" class="messages"></div>
-<div class="chatrow"><input id="chatInput" placeholder="Message..."><button id="sendBtn" class="btn">Send</button></div>
-</div>
+<div class="card"><h2>🧪 Full Diagnostics</h2><div id="debug" class="debug"></div></div>
+<div class="card"><h2>💬 Chat</h2><div id="messages" class="messages"></div><div class="chatrow"><input id="chatInput" placeholder="Message..."><button id="sendBtn" class="btn">Send</button></div></div>
 </section>
-<footer><span>Firebase → room state</span><span>PeerJS → WebRTC signaling</span><span>Video → P2P media</span></footer>
 </main>
-<script src="config.js"></script><script src="app.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
 </body></html>
