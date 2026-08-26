@@ -1,45 +1,36 @@
-# WatchTogether V4
+# WatchTogether V5
 
-V4 එකේ **Full Connection Diagnostics** තියෙනවා.
+### Main change
+V5 uses **one-way WebRTC media**:
+Host only sends media. Guest does not send a dummy MediaStream.
 
-## Files
-- index.html
-- style.css
-- app.js
-- config.js
-
-## GitHub Pages
-පරණ files 4 replace කරලා commit කරන්න.
-
-## Test
 Host:
-1. Video Select
-2. Create Room
-3. Copy Link
+`video.captureStream()` → `PeerJS call` → Guest
 
-Guest:
-1. Host link open කරන්න.
-2. Join click කරන්න.
-3. **Full Diagnostics** box එක බලන්න.
+Firebase:
+room ID + host Peer ID + play/pause/seek state only.
 
-## Expected Guest logs
-✓ Firebase initialized
-✓ PeerJS SDK: LOADED
-✓ Guest Peer OPEN
-✓ Host Peer ID found
-✓ DATA connection OPEN
-✓ Guest MEDIA CALL created
-✓ REMOTE MEDIA STREAM RECEIVED
-✓ Remote video tracks: 1
-✓ Remote metadata: WIDTHxHEIGHT
+### Best media compatibility
+Use **MP4 H.264 video + AAC audio**. Browser support for MKV/HEVC is inconsistent.
 
-## If REMOTE MEDIA STREAM RECEIVED does not appear
-එහෙනම් WebRTC media path එක establish වෙලා නැහැ. Debug box එකේ අවසාන lines බලලා network/signaling/browser issue එක identify කරන්න.
+### Test
+1. Replace `index.html`, `style.css`, `app.js`, `config.js` on GitHub.
+2. Refresh GitHub Pages.
+3. Host selects an MP4.
+4. Create Room.
+5. Guest opens room link and presses Join.
+6. Check Full Diagnostics.
 
-## Browser
-Latest Chrome/Edge use කරන්න. GitHub Pages HTTPS use කරන නිසා WebRTC APIs සඳහා secure context එකක් ලැබේ.
+Expected Guest:
+- Guest Peer OPEN
+- Host Peer found
+- DATA connection OPEN
+- ONE-WAY media call created
+- REMOTE MEDIA STREAM RECEIVED
+- Remote video tracks: 1
+- Remote video playing
 
-## Important
-PeerJS Cloud signaling එක media relay/TURN server එකක් නොවේ. Restrictive NAT/firewall network එකක P2P media connection එක fail විය හැක. Production reliability සඳහා TURN infrastructure අවශ්‍ය විය හැක.
+If `REMOTE MEDIA STREAM RECEIVED` never appears, the WebRTC media path is not reaching the guest. The diagnostics will show the last successful step.
 
-Firebase config එක user-provided project එකට prefilled කර ඇත. Firebase Realtime Database room state/sync සඳහා පමණයි.
+### Note
+PeerJS Cloud provides signaling, not a guaranteed TURN relay. Some NAT/firewall combinations can prevent direct media. For reliable production connectivity across restrictive networks, TURN is required.
