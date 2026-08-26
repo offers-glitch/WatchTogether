@@ -1,38 +1,20 @@
-# WatchTogether — Firebase + PeerJS
+# WatchTogether FIXED
 
-## 1. Firebase
-1. Firebase Console → Create project.
-2. Realtime Database → Create Database.
-3. Web App එකක් register කරන්න.
-4. Project settings → Your apps → Config copy කරන්න.
-5. `config.js` තුළ values replace කරන්න.
+මේ version එකේ Host local video එක Guest browser එකට **actual WebRTC media stream** එකක් ලෙස යැවීමට PeerJS media-call flow එක add කර ඇත.
 
-### Realtime Database Rules (demo)
-Development සඳහා පමණක්:
-```json
-{
-  "rules": {
-    ".read": true,
-    ".write": true
-  }
-}
-```
-Production එකේ authentication + restrictive rules දාන්න.
+## Firebase
+`config.js` එකේ Firebase Web App config values දාන්න.
 
-## 2. GitHub Pages
-1. මේ folder එක GitHub repository එකකට upload කරන්න.
-2. Settings → Pages.
-3. Deploy from branch → `main` / root.
-4. ලැබෙන Pages URL එක open කරන්න.
+Realtime Database එක room metadata/sync state සඳහා පමණයි.
 
-## 3. Use
-- Host: Video Select → Create Room → Copy Link.
-- Friend: link open කරලා Join.
-- Host browser එක open තියෙන්න ඕනේ.
-- Firebase stores room metadata/sync state; video file එක Firebase Storage එකට upload කරන්නේ නැහැ.
+## GitHub Pages
+මේ files සියල්ල repository root එකට upload කරලා:
+Settings → Pages → Deploy from branch → main → /root → Save.
 
-## Important technical note
-PeerJS Cloud signaling WebRTC connection setup සඳහා භාවිතා වෙනවා. Browser-to-browser media transfer එක direct WebRTC path එකක් භාවිතා කරයි. NAT/firewall situations වල reliability සඳහා TURN server එකක් future production version එකකට අවශ්‍ය විය හැක.
+## Important
+Host browser එකේ video file එක local නිසා Host browser එක open/connected තිබිය යුතුයි.
 
-## Security
-Public Realtime Database rules demo සඳහා විතරයි. Real deployment එකකට Firebase Authentication, room membership validation, rate limiting සහ stricter rules අනිවාර්යයෙන් add කරන්න.
+Browser autoplay policy නිසා Guest පැත්තේ video auto-play නොවුණොත් video area එක click කරලා Play කරන්න.
+
+## Note
+WebRTC media connection එක network/NAT/firewall මත depend වෙනවා. PeerJS Cloud signaling තිබුණත් production reliability සඳහා TURN server එකක් අවශ්‍ය විය හැකි අවස්ථා තියෙනවා.

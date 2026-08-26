@@ -1,5 +1,3 @@
-// Paste your Firebase Web App config here.
-// Firebase Console -> Project settings -> Your apps -> Web app
 window.FIREBASE_CONFIG = {
   apiKey: "AIzaSyB3jEDSLPdGd2bBgyYPX5OrwkvQ7bZJUs8",
   authDomain: "watchtogether-ff9ae.firebaseapp.com",
